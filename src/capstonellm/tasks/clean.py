@@ -1,15 +1,59 @@
 import argparse
+import json
 import logging
+from pathlib import Path
+from urllib.parse import urlparse
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import collect_list, struct
+from pyspark.sql.functions import collect_list, struct, when
 
 from capstonellm.common.catalog import llm_bucket
 from capstonellm.common.spark import ClosableSparkSession
 
 logger = logging.getLogger(__name__)
 
-def clean(spark: SparkSession, environment: str, tag: str, output: str | None = None):
+
+def write_per_question(cleaned, output: str):
+    parsed = urlparse(output)
+    if parsed.scheme in ("s3", "s3a"):
+        import boto3
+
+        bucket = parsed.netloc
+        prefix = parsed.path.lstrip("/").rstrip("/")
+        if not bucket:
+            raise ValueError("S3 output path must include a bucket")
+        if not prefix:
+            raise ValueError("S3 output path must include a prefix")
+        client = boto3.client("s3")
+        for row in cleaned.toJSON().toLocalIterator():
+            document = json.loads(row)
+            key = f"{prefix}/{document['question_id']}.json"
+            client.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=(json.dumps(document) + "\n").encode("utf-8"),
+                ContentType="application/json",
+            )
+        return
+
+    if parsed.scheme:
+        raise ValueError(f"Unsupported output path scheme: {parsed.scheme}")
+
+    output_path = Path(output)
+    output_path.mkdir(parents=True, exist_ok=True)
+    for row in cleaned.toJSON().toLocalIterator():
+        document = json.loads(row)
+        with (output_path / f"{document['question_id']}.json").open("w", encoding="utf-8") as file:
+            json.dump(document, file)
+            file.write("\n")
+
+def clean(
+    spark: SparkSession,
+    environment: str,
+    tag: str,
+    output: str | None = None,
+    limit: int | None = None,
+):
     input_prefix = (
         f"s3a://{llm_bucket}/input/{tag}"
         if environment != "local"
@@ -23,6 +67,8 @@ def clean(spark: SparkSession, environment: str, tag: str, output: str | None = 
         .selectExpr("explode(items) as question")
         .select("question.*")
     )
+    if limit is not None:
+        questions = questions.limit(limit)
 
     answers = (
         spark.read
@@ -33,7 +79,7 @@ def clean(spark: SparkSession, environment: str, tag: str, output: str | None = 
     )
 
     cleaned = (
-        questions.join(answers, on="question_id", how="inner")
+        questions.join(answers, on="question_id", how="left")
         .groupBy(
             "question_id",
             questions.title,
@@ -42,9 +88,12 @@ def clean(spark: SparkSession, environment: str, tag: str, output: str | None = 
         )
         .agg(
             collect_list(
-                struct(
-                    answers.answer_id.alias("answer_id"),
-                    answers.body.alias("answer"),
+                when(
+                    answers.answer_id.isNotNull(),
+                    struct(
+                        answers.answer_id.alias("answer_id"),
+                        answers.body.alias("answer"),
+                    ),
                 )
             ).alias("answers")
         )
@@ -60,7 +109,7 @@ def clean(spark: SparkSession, environment: str, tag: str, output: str | None = 
     cleaned.show(5, truncate=False)
     print("Rows:", cleaned.count())
     if output:
-        cleaned.write.mode("overwrite").json(output)
+        write_per_question(cleaned, output)
 
     return cleaned
 
@@ -75,6 +124,10 @@ def main():
     )
     parser.add_argument(
         "-o", "--output", dest="output", help="output path for joined JSON files",
+        default=None, required=False
+    )
+    parser.add_argument(
+        "--limit", type=int, help="maximum number of questions to process",
         default=None, required=False
     )
     logger.info("starting the cleaning job")
@@ -92,10 +145,10 @@ def main():
         for key, value in common_spark_config.items():
             builder = builder.config(key, value)
         session = builder.getOrCreate()
-        clean(session, args.env, args.tag, args.output)
+        clean(session, args.env, args.tag, args.output, args.limit)
     else:
         with ClosableSparkSession("capstone_llm", spark_config=common_spark_config) as session:
-            clean(session, args.env, args.tag, args.output)
+            clean(session, args.env, args.tag, args.output, args.limit)
 
 
 if __name__ == "__main__":
