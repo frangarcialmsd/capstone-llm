@@ -93,7 +93,18 @@ Investigate the data, you can download and inspect the json files. Download them
 
 ```
 aws s3 ls s3://dataminded-academy-capstone-llm-data/input/
+
+Result:  aws s3 ls s3://dataminded-academy-capstone-llm-data/input/
+                           PRE airflow/
+                           PRE apache-spark/
+                           PRE dbt/
+                           PRE docker/
+                           PRE pyspark/
+                           PRE python-polars/
+                           PRE sql/
 aws s3 cp s3://dataminded-academy-capstone-llm-data/input/dbt/questions.json ./
+aws s3 cp s3://dataminded-academy-capstone-llm-data/input/dbt/answers.json ./
+
 ```
 
 Start by writing your cleaning transformation by reading/writing local files and only afterwards interact directly with s3.
@@ -104,6 +115,18 @@ So your goal is to extract the relevant fields from both the questions and answe
 > **_NOTE:_** When reading from s3, make sure to use `s3a://` prefix.
 
 > **_NOTE:_** In order for your job to access the s3 bucket, you will need to export the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
+
+For local container runs, copy `.env.example` to `.env` and fill in your credentials. The `.env` file is ignored by Git and must never be committed. Pass it to Docker at runtime:
+
+```bash
+cp .env.example .env
+docker run --rm --env-file .env capstonellm-clean:local \
+  --env cloud \
+  --tag python-polars \
+  --output s3://dataminded-academy-capstone-llm-data/cleaned/<user>/python-polars
+```
+
+Credentials are not included in the Docker image. Airflow should provide the same variables through its runtime environment or an AWS IAM role.
 
 Write the cleaned json documents per question again to s3 under path `cleaned/<user>/{tag}`
 

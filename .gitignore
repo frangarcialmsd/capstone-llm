@@ -10,3 +10,7 @@ plugins
 build
 
 *.egg-info
+
+.env
+.env.*
+!.env.example
