@@ -1,0 +1,199 @@
+[
+  {
+    "owner": {
+      "account_id": 1389806,
+      "reputation": 185,
+      "user_id": 1320898,
+      "user_type": "registered",
+      "accept_rate": 43,
+      "profile_image": "https://www.gravatar.com/avatar/70685b6c43ec91bbdc35a55c8676162d?s=256&d=identicon&r=PG",
+      "display_name": "Jazz77",
+      "link": "https://stackoverflow.com/users/1320898/jazz77"
+    },
+    "is_accepted": true,
+    "score": 0,
+    "last_activity_date": 1770283482,
+    "creation_date": 1770283482,
+    "answer_id": 79883359,
+    "question_id": 79874485,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>So i resolved this issue by simply adding  config options in my model as<br />\n<strong><code>on_schema_change = 'append_new_columns'</code></strong></p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 9096945,
+      "reputation": 80,
+      "user_id": 6770597,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/921b1b509d36e6a76e4934cd297d317f?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "akooi",
+      "link": "https://stackoverflow.com/users/6770597/akooi"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1770211786,
+    "creation_date": 1770211786,
+    "answer_id": 79882785,
+    "question_id": 79821117,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>The constraint file forces you to use protobuf version 4.25.8 while your dbt packages want to use a much more recent protobuf versions. Modify your requirements.txt (or pyproject.toml) to not specify a version like this</p>\n<pre><code>dbt-common\ndbt-adapters\ndbt-core\n</code></pre>\n<p>pip will try to find a version that specifies the constraints.</p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 34599947,
+      "reputation": 1,
+      "user_id": 26656969,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/f47aa3d780c1f543e342d89839d71052?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "F&#225;bio Tavares",
+      "link": "https://stackoverflow.com/users/26656969/f%c3%a1bio-tavares"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1770120648,
+    "creation_date": 1770120648,
+    "answer_id": 79881897,
+    "question_id": 79881323,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>After a bit more search I found this ticket which explains why this happens and at the end also shows a workaround: <a href=\"https://github.com/databricks/dbt-databricks/issues/831\" rel=\"nofollow noreferrer\">https://github.com/databricks/dbt-databricks/issues/831</a></p>\n<p>Basically idea is to ensure each command ends with &quot;;&quot;, that all commands are captured with {% set ... %} and a macro that is able to run command by command using run_query.</p>\n<p><a href=\"https://i.sstatic.net/TpBfzLTJ.png\" rel=\"nofollow noreferrer\">Workaround</a></p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 6559132,
+      "reputation": 181975,
+      "user_id": 5070879,
+      "user_type": "registered",
+      "accept_rate": 72,
+      "profile_image": "https://www.gravatar.com/avatar/efcd175252f8c20877eff4aaa9068cf0?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "Lukasz Szozda",
+      "link": "https://stackoverflow.com/users/5070879/lukasz-szozda"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1769464377,
+    "last_edit_date": 1769464377,
+    "creation_date": 1769464067,
+    "answer_id": 79876680,
+    "question_id": 79876672,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>To verify if data does not contain any duplicates:</p>\n<pre><code>SELECT\n    * EXCLUDE ({{ exclude_columns }})\nFROM {{ source(source_name, table_name) }}\nWHERE {{ timestamp_column }} = (\n    SELECT MAX({{ timestamp_column }})\n    FROM {{ source(source_name, table_name) }}\n)\nQUALIFY COUNT(*) OVER(PARTITION BY ID) &gt; 1;\n</code></pre>\n<p>The original query using <code>QUALIFY ROW_NUMBER() ... = 1</code> removes duplicates  so there is no chance to detect them with <code>HAVING COUNT(*) &gt; 1</code>, if any.</p>\n<p>Second <code>ORDER BY inserted_at_utc DESC, ID DESC</code> does not provide reliable way to sort as it is always constant (inserted_at_utc is always the same due to WHERE condition and ID is also the same per partition by):</p>\n<pre><code>SELECT \n    ID,\n    COUNT(*) AS cnt\nFROM (\n    SELECT DISTINCT\n        * EXCLUDE (inserted_at_utc)\n    FROM &lt;my_table&gt;\n    WHERE inserted_at_utc = (\n        SELECT MAX(inserted_at_utc)\n        FROM &lt;my_table&gt;\n    )\n    QUALIFY ROW_NUMBER() OVER (\n        PARTITION BY ID\n        ORDER BY inserted_at_utc DESC, ID DESC\n    ) = 1\n)\nGROUP BY ID\nHAVING COUNT(*) &gt; 1;\n</code></pre>\n"
+  },
+  {
+    "owner": {
+      "account_id": 45409413,
+      "reputation": 1,
+      "user_id": 32258896,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/d999af630957a435579e68ab620d50d6?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "data-diving",
+      "link": "https://stackoverflow.com/users/32258896/data-diving"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1769419201,
+    "creation_date": 1769419201,
+    "answer_id": 79876212,
+    "question_id": 79434304,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>I would recommend adding <code>tag:run_all</code> to use it when you need to run all of them.</p>\n<p>Another approach can be moving all these models into the same folder and running them using <code>path</code> rather than <code>tag</code>.</p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 45409413,
+      "reputation": 1,
+      "user_id": 32258896,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/d999af630957a435579e68ab620d50d6?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "data-diving",
+      "link": "https://stackoverflow.com/users/32258896/data-diving"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1769345873,
+    "creation_date": 1769345873,
+    "answer_id": 79875690,
+    "question_id": 79560224,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>If I get your question correctly, you're trying to hide some sources based on your target. I don't think it's possible thing to do via YAML config.</p>\n<p>What is possible though is to exclude non-prod sources from the code of your target model. For example, it can look like this:</p>\n<pre class=\"lang-sql prettyprint-override\"><code>SELECT col1, col2, col3\nFROM &lt;table_that_exists_in_every_target&gt;\n{%- if &quot;prod&quot; in target.name -%}\nUNION\nSELECT col1, col2, col3\nFROM &lt;table_that_exists_ONLY_IN_PROD&gt;\n{%- endif -%}\n</code></pre>\n"
+  },
+  {
+    "owner": {
+      "account_id": 45409413,
+      "reputation": 1,
+      "user_id": 32258896,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/d999af630957a435579e68ab620d50d6?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "data-diving",
+      "link": "https://stackoverflow.com/users/32258896/data-diving"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1769344073,
+    "last_edit_date": 1769344073,
+    "creation_date": 1769343972,
+    "answer_id": 79875678,
+    "question_id": 79832098,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>The best approach for doing transformation before load totally depends on your specific environment. It can be SQL transformation included into your COPY INTO statement (if you use Snowflake DB), custom Apache Airflow operator to pre-process data (if you have Airflow in your stack), or many different things.</p>\n<p>This is what dbt website says:</p>\n<blockquote>\n<p>dbt <strong>transforms</strong> raw warehouse data into trusted data products</p>\n</blockquote>\n<p>dbt transforms data that was loaded into your database using external tools. If you want to pre-process data before loading it into the database, you have to use other tools. Seed mechanism in the dbt is also not an option for your case as it supposed to be used for upload of basic mappings or static lists of values into your database. They explicitly mention poor use-cases in the <a href=\"https://docs.getdbt.com/docs/build/seeds#overview\" rel=\"nofollow noreferrer\">seeds overview</a>:</p>\n<blockquote>\n<p>Poor use-cases of dbt seeds:</p>\n<ul>\n<li><p>Loading raw data that has been exported to CSVs</p>\n</li>\n<li><p>Any kind of production data containing sensitive information. For example personal identifiable information (PII) and passwords.</p>\n</li>\n</ul>\n</blockquote>\n"
+  },
+  {
+    "owner": {
+      "account_id": 45409413,
+      "reputation": 1,
+      "user_id": 32258896,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/d999af630957a435579e68ab620d50d6?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "data-diving",
+      "link": "https://stackoverflow.com/users/32258896/data-diving"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1769343365,
+    "creation_date": 1769343365,
+    "answer_id": 79875674,
+    "question_id": 79838126,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>You have to enclose your Jinja template into quotes like this:</p>\n<p><code>schema: '{{ &quot;source_prd&quot; if target.name == &quot;prd&quot; else &quot;source_dev&quot; }}'</code></p>\n<p>The issue you're facing is related to the fact that you use Jinja syntax {{}} outside of string literals. YML parser tries to read this as an actual value rather than parse it through Jinja</p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 45308608,
+      "reputation": 1,
+      "user_id": 32206923,
+      "user_type": "unregistered",
+      "profile_image": "https://www.gravatar.com/avatar/80aad90d999201ecf77b20cc37375a98?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "Insguy8444",
+      "link": "https://stackoverflow.com/users/32206923/insguy8444"
+    },
+    "is_accepted": false,
+    "score": 0,
+    "last_activity_date": 1768487127,
+    "last_edit_date": 1768487127,
+    "creation_date": 1768479236,
+    "answer_id": 79868538,
+    "question_id": 76419580,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<p>I got this error when there was an issue in one of my yamls (e.g. a missing quote). After fixing this I had to restart VS Code. Then the next model build went good.</p>\n"
+  },
+  {
+    "owner": {
+      "account_id": 6559132,
+      "reputation": 181975,
+      "user_id": 5070879,
+      "user_type": "registered",
+      "accept_rate": 72,
+      "profile_image": "https://www.gravatar.com/avatar/efcd175252f8c20877eff4aaa9068cf0?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "Lukasz Szozda",
+      "link": "https://stackoverflow.com/users/5070879/lukasz-szozda"
+    },
+    "is_accepted": false,
+    "score": 2,
+    "last_activity_date": 1767632378,
+    "last_edit_date": 1767632378,
+    "creation_date": 1767632018,
+    "answer_id": 79860993,
+    "question_id": 79860461,
+    "content_license": "CC BY-SA 4.0",
+    "body": "<blockquote>\n<p><em>Why am I getting this error when I preview this code in DBT?</em></p>\n</blockquote>\n<p>The error message indicates that most likely they are two subsequent LIMIT clauses applied. The second limit is added automatically with default value by UI.</p>\n<p>The easiest way to confirm this observation is to check the actual query that is executed using <a href=\"https://docs.snowflake.com/en/user-guide/ui-snowsight-activity\" rel=\"nofollow noreferrer\">Snowsight UI - Query History</a>.</p>\n<hr />\n<p>Rationale:</p>\n<p>If we look at the original query we can observe difference in clause casing:</p>\n<pre><code>SELECT\n    O_ORDERKEY,\n    ord.O_CUSTKEY,\n    cust.C_NAME AS CUSTOMER_NAME \nFROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS AS ord \nJOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER AS cust\n      ON cust.C_CUSTKEY = ord.O_CUSTKEY  \nLIMIT 100\n--^^^ (uppercase)\n\n\n-- error message:\n-- syntax error line 10 at position 2 unexpected 'limit'.\n--                                                ^^^^^ (lowercase)\n</code></pre>\n<p>We can replicate such behavior using Snowflake:</p>\n<pre><code>SELECT *\nFROM DUAL\nLIMIT 1\n  limit 2;\n-- SQL compilation error: syntax error line 4 at position 2 unexpected 'limit'.\n</code></pre>\n<p>We can also confirm that additional <code>LIMIT</code> is applied by using <code>TOP</code> clause  in the main query instead:</p>\n<pre><code>SELECT TOP 100\n    O_ORDERKEY,\n    ord.O_CUSTKEY,\n    cust.C_NAME AS CUSTOMER_NAME \nFROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS AS ord \nJOIN SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.CUSTOMER AS cust\n      ON cust.C_CUSTKEY = ord.O_CUSTKEY \n</code></pre>\n<p>If there is default limit then we'll get <code>SQL compilation error: Duplicate LIMIT: limit.</code></p>\n<hr />\n<p>Related:</p>\n<ul>\n<li><a href=\"https://docs.getdbt.com/reference/commands/show\" rel=\"nofollow noreferrer\">dbt show</a></li>\n<li><a href=\"https://github.com/dbt-labs/dbt-adapters/blob/main/dbt-adapters/src/dbt/include/global_project/macros/adapters/show.sql\" rel=\"nofollow noreferrer\">macro default__get_limit_sql(sql, limit)</a></li>\n</ul>\n<blockquote>\n<pre><code>{% macro default__get_limit_sql(sql, limit) %}\n {{ sql }}\n {% if limit is not none %}\n limit {{ limit }}\n {%- endif -%}\n{% endmacro %}\n</code></pre>\n</blockquote>\n"
+  }
+]

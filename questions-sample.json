@@ -1,0 +1,278 @@
+[
+  {
+    "tags": [
+      "snowflake-cloud-data-platform",
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 1389806,
+      "reputation": 185,
+      "user_id": 1320898,
+      "user_type": "registered",
+      "accept_rate": 43,
+      "profile_image": "https://www.gravatar.com/avatar/70685b6c43ec91bbdc35a55c8676162d?s=256&d=identicon&r=PG",
+      "display_name": "Jazz77",
+      "link": "https://stackoverflow.com/users/1320898/jazz77"
+    },
+    "is_answered": true,
+    "view_count": 44,
+    "accepted_answer_id": 79883359,
+    "answer_count": 1,
+    "score": 1,
+    "last_activity_date": 1770283482,
+    "creation_date": 1769165730,
+    "last_edit_date": 1769173161,
+    "question_id": 79874485,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79874485/dbt-model-merging-data-in-snowflake-table-that-use-auto-increment-column",
+    "title": "DBT model merging data in snowflake table that use auto increment column",
+    "body": "<p>I created a table in Snowflake where the <code>ID</code> column is auto-incremented:</p>\n<pre><code>ID  NUMBER(15) AUTOINCREMENT START 1 INCREMENT 1 \n</code></pre>\n<p>While loading data into this table, we use model of DBT. It's a merge model that insert or update data in this table.</p>\n<p>After adding <code>ID</code> in <code>merge_exclude_columns</code>, I get an error</p>\n<blockquote>\n<p>Invalid identifier 'ID'</p>\n</blockquote>\n<p>As it does not appear in update list but present in insert clause of the <code>Merge</code> statement.</p>\n<p>How can I exclude it from the <code>Insert</code> clause of <code>Merge</code> statement created by dbt?</p>\n"
+  },
+  {
+    "tags": [
+      "python",
+      "pip",
+      "airflow",
+      "dbt",
+      "python-poetry"
+    ],
+    "owner": {
+      "account_id": 44691019,
+      "reputation": 11,
+      "user_id": 31885416,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/a76f80910cc2344dee5ed477cd2bb2c6?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "schatz",
+      "link": "https://stackoverflow.com/users/31885416/schatz"
+    },
+    "is_answered": true,
+    "view_count": 142,
+    "answer_count": 2,
+    "score": 1,
+    "last_activity_date": 1770211786,
+    "creation_date": 1763240662,
+    "question_id": 79821117,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79821117/depedency-hell-airflowdbt",
+    "title": "Depedency Hell airflow+dbt",
+    "body": "<p>Hello I'm new to airflow, lately I'm struggling on a project with dbt+airflow+docker. My problem 1) I pip install dbt-core, dbt-duckdb adapter, 2) I try to install airflow with:</p>\n<pre><code>pip install &quot;apache-airflow[celery]==3.1.3&quot; --constraint &quot;https://raw.githubusercontent.com/apache/airflow/constraints-3.1.3/constraints-3.12.txt&quot;\n</code></pre>\n<p>But I always hit a depedency error like:</p>\n<pre><code>dbt-common 1.36.0 requires protobuf&lt;7.0,&gt;=6.0, but you have protobuf 4.25.8 which is incompatible.\ndbt-adapters 1.19.0 requires protobuf&lt;7.0,&gt;=6.0, but you have protobuf 4.25.8 which is incompatible.\ndbt-core 1.10.15 requires protobuf&lt;7.0,&gt;=6.0, but you have protobuf 4.25.8 which is incompatible.\n</code></pre>\n<p>Whatever I did, try previous Python versions, try to force install protobuff specific version get me this:</p>\n<pre><code>opentelemetry-proto 1.27.0 requires protobuf&lt;5.0,&gt;=3.19, but you have protobuf 6.33.1\n</code></pre>\n<p>I also tried many combinations of airflow and dbt versions.</p>\n<p>I tried poetry but I'm having zero wins so far, I'm trying to get past this step for 2 weeks, so any help would be appreciated.</p>\n"
+  },
+  {
+    "tags": [
+      "jinja2",
+      "dbt",
+      "databricks-sql"
+    ],
+    "owner": {
+      "account_id": 34599947,
+      "reputation": 1,
+      "user_id": 26656969,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/f47aa3d780c1f543e342d89839d71052?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "F&#225;bio Tavares",
+      "link": "https://stackoverflow.com/users/26656969/f%c3%a1bio-tavares"
+    },
+    "is_answered": false,
+    "view_count": 36,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1770120648,
+    "creation_date": 1770054050,
+    "question_id": 79881323,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79881323/dbt-running-multiple-databricks-ddl-on-run-start-via-macro",
+    "title": "DBT: Running multiple Databricks DDL on run-start via macro",
+    "body": "<p>I'm trying to build a macro to be executed on dbt on-run-start that will create all necessary Databricks functions.</p>\n<p>I have created the following macro that works fine</p>\n<pre><code>-- NAMES\n{% macro region_filter_function() %}\n    {{ return(target.catalog  ~ '.mart.region_filter') }}\n{% endmacro %}\n\n-- DEFINITIONS\n{% macro create_udfs() %}\n\nCREATE FUNCTION IF NOT EXISTS {{ region_filter_function() }}(region STRING)\nRETURN IF(IS_ACCOUNT_GROUP_MEMBER('BI_USERS'), true, region in ('US','GB','DK'));\n\n{% endmacro %}\n</code></pre>\n<p>The moment I try to add a new CREATE FUNCTION below the existing one I get an error:<br />\n<a href=\"https://i.sstatic.net/zp0gk05n.png\" rel=\"nofollow noreferrer\">enter image description here</a></p>\n<p>I have tried:</p>\n<ul>\n<li><p>have each Create in its own macro and then have macro1 call macro2</p>\n</li>\n<li><p>use set and run_query</p>\n</li>\n</ul>\n<p>I always have the same error.</p>\n<p>Running both in databricks works fine.</p>\n<p>I do not want to pollute the on_run_start with infinite macro calls.</p>\n<p>Any ideas?</p>\n"
+  },
+  {
+    "tags": [
+      "snowflake-cloud-data-platform",
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 21585160,
+      "reputation": 516,
+      "user_id": 15915737,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/e47ece4c014cf624eec3991c7f66655c?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "user15915737",
+      "link": "https://stackoverflow.com/users/15915737/user15915737"
+    },
+    "is_answered": false,
+    "view_count": 40,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1769464377,
+    "creation_date": 1769463289,
+    "question_id": 79876672,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79876672/dbt-snapshot-creates-duplicate-dbt-scd-id-even-though-source-query-returns-no-du",
+    "title": "dbt snapshot creates duplicate dbt_scd_id even though source query returns no duplicates",
+    "body": "<p>I'm creating a dbt snapshot from a Snowflake source table. The source table receives a full export regularly, and it contains two important columns: <code>id</code> and <code>inserted_at_utc</code>. Each export inserts a new full dataset.</p>\n<p>To snapshot only the latest export, I use this macro:</p>\n<pre><code>{% macro snapshot_latest_record(\n    source_name,\n    table_name,\n    timestamp_column='inserted_at_utc',\n    exclude_columns='inserted_at_utc'\n) %}\n\n    SELECT\n        * EXCLUDE ({{ exclude_columns }})\n    FROM {{ source(source_name, table_name) }}\n    WHERE {{ timestamp_column }} = (\n        SELECT MAX({{ timestamp_column }})\n        FROM {{ source(source_name, table_name) }}\n    )\n\n{% endmacro %}\n</code></pre>\n<p>My snapshot model:</p>\n<pre class=\"lang-none prettyprint-override\"><code>{% snapshot snap_boond__agencies %}\n\n  {{\n    config(\n      target_schema='SNAPSHOT',\n      strategy='check',\n      unique_key='ID',\n      check_cols='all',\n      invalidate_hard_deletes=True,\n    )\n  }}\n\n  {{ snapshot_latest_record('&lt;source_name&gt;', '&lt;table_name&gt;') }}\n\n{% endsnapshot %}\n</code></pre>\n<p>To verify that the latest export contains no duplicates, I run:</p>\n<pre class=\"lang-sql prettyprint-override\"><code>SELECT \n    ID,\n    COUNT(*) AS cnt\nFROM (\n    SELECT DISTINCT\n        * EXCLUDE (inserted_at_utc)\n    FROM &lt;my_table&gt;\n    WHERE inserted_at_utc = (\n        SELECT MAX(inserted_at_utc)\n        FROM &lt;my_table&gt;\n    )\n    QUALIFY ROW_NUMBER() OVER (\n        PARTITION BY ID\n        ORDER BY inserted_at_utc DESC, ID DESC\n    ) = 1\n)\nGROUP BY ID\nHAVING COUNT(*) &gt; 1;\n</code></pre>\n<p>This query returns <strong>no results</strong>, so the source data is not duplicated.</p>\n<p>However, dbt still fails with duplicate <code>dbt_scd_id</code> errors:</p>\n<pre><code>Failure in test unique_snap_boond__agencies_DBT_SCD_ID\nGot 5 results, configured to fail if != 0\n</code></pre>\n<p>And even a full refresh fails:</p>\n<pre><code>Database Error in snapshot snap_boond__agencies\n100090 (42P18): Duplicate row detected during DML action\nRow Values: [redacted]\n</code></pre>\n<p>If the macro returns only one row per <code>ID</code>, why is dbt generating duplicate <code>dbt_scd_id</code> values during the snapshot? What could cause duplicates inside the snapshot table even when the source query itself contains none ?</p>\n"
+  },
+  {
+    "tags": [
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 1937380,
+      "reputation": 670,
+      "user_id": 1744491,
+      "user_type": "registered",
+      "accept_rate": 57,
+      "profile_image": "https://www.gravatar.com/avatar/ebedfd3397cc21ed7ff7d5e821f66242?s=256&d=identicon&r=PG",
+      "display_name": "Guilherme Noronha",
+      "link": "https://stackoverflow.com/users/1744491/guilherme-noronha"
+    },
+    "is_answered": false,
+    "view_count": 232,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1769419201,
+    "creation_date": 1739390097,
+    "question_id": 79434304,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79434304/dbt-run-all-models-but-the-selected-tag-by-regex",
+    "title": "DBT: run all models but the selected tag by regex",
+    "body": "<p>I have some models to run in specific times such as run:hourly, run:every_10_min, and so on. Also, I have a standard time when I run all models, except those with the above-mentioned tags. I tried to do this running the following command:</p>\n<p><code>dbt build --exclude tag:run*</code></p>\n<p>The idea is to cover all tags with start with run, but it didn't work, and all models were called by DBT.</p>\n<p>How to do this?</p>\n"
+  },
+  {
+    "tags": [
+      "python",
+      "sqlite",
+      "etl",
+      "transformation",
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 26074114,
+      "reputation": 83,
+      "user_id": 19773284,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/9c3ce81ed5e1edfa45e5d2b520ae66d4?s=256&d=identicon&r=PG",
+      "display_name": "Ricca",
+      "link": "https://stackoverflow.com/users/19773284/ricca"
+    },
+    "is_answered": false,
+    "view_count": 58,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1769349034,
+    "creation_date": 1764279451,
+    "question_id": 79832098,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79832098/how-can-i-set-up-an-etl-process-for-dataframes-dbt-or-alternative-tools",
+    "title": "How can I set up an ETL process for DataFrames (dbt or alternative tools)?",
+    "body": "<p>Question: I'm currently working on a dashboard prototype and storing data from a 22-page PDF document as 22 separate DataFrames. These DataFrames should undergo an ETL process (especially data type conversions) on every import before being written to the database.</p>\n<p>My initial approach was to use dbt seeds and/or models. However, dbt loads the seed CSV directly into the SQLite database without my prior transformations taking effect. I want to transform first and then load.</p>\n<p>Setup:</p>\n<p>* Data source: 22 DataFrames extracted from PDF tables</p>\n<p>* Database: SQLite (for prototype only)</p>\n<p>* ETL/ELT tool: preferably dbt, but not mandatory</p>\n<p>* Language: Python  Problem: How can I set up an ETL workflow where DataFrames are processed and transformed directly without having to load them into dbt as CSV (seeds) beforehand?</p>\n<p>Is there a way to integrate DataFrames directly into a dbt model process? If not, what alternative tools are suitable (e.g., Airflow, Dagster, Prefect, pandas-based ETL pipelines, etc.)?</p>\n<p>Previous attempts:</p>\n<p>* dbt seed: loads CSV directly into the database → transformations don't work</p>\n<p>* dbt models: only work if the data is already in the database, which I want to avoid</p>\n<p>* Currently: manual type conversions in Python (float, int, string, datetime)</p>\n<p>Looking for: Best practices or tool recommendations for directly transforming DataFrames and then loading them into SQLite – with or without dbt.</p>\n"
+  },
+  {
+    "tags": [
+      "yaml",
+      "jinja2",
+      "dbt",
+      "schema.yml"
+    ],
+    "owner": {
+      "account_id": 41251671,
+      "reputation": 1,
+      "user_id": 30198074,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/568ff606e1652d16c9cf025cee4cab52?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "Gabriel Castaing",
+      "link": "https://stackoverflow.com/users/30198074/gabriel-castaing"
+    },
+    "is_answered": false,
+    "view_count": 205,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1769345873,
+    "creation_date": 1744038359,
+    "question_id": 79560224,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79560224/using-if-statement-with-jinja-templating-in-a-yml-file",
+    "title": "Using &#39;if&#39; statement with Jinja templating in a yml file",
+    "body": "<p>I have a very stupid question about templating in dbt.</p>\n<p>I want to run a model tableC against <code>uat-az</code> , but only certain source tables of the model can be found in <code>uat-az</code> therefore, I want to exclude it from the sources.yml depending on target env.</p>\n<p>Example :</p>\n<p>I want to run the following :</p>\n<pre><code>dbt run --select tableX --target uat-az\n</code></pre>\n<p>(TableX is referencing TableC and other tables not shown here)</p>\n<p>But had to make changes to the source.yml :</p>\n<pre><code>- name: sourceA\n  schema: schemaA\n  database: |\n    {%- if &quot;prod&quot; in target.name  -%} raw_db_prod\n    {%- else -%} raw_db_uat\n    {%- endif -%}\n  tables:\n  - name: tableA\n    description: The table A.\n    freshness:\n      warn_after: {count: 12, period: hour}\n      error_after: {count: 24, period: hour}\n    loaded_at_field: &quot;to_timestamp(json:dt::string)&quot;\n    columns:\n    - name: json\n      description:  json.\n- name: tableB\n    description: The table B.\n    columns:\n    - name: dt\n      description: the dt\n    - name: sn\n      description: the sn\n    - name: payload\n\n    {%- if target.name != &quot;uat-az&quot; and target.name != &quot;prod-az&quot; %}\n  \n- name: tableC\n    description: The table C.\n    columns:\n\n    - name: _file\n      description: the _file.\n    - name: _line\n      description: the _line.\n     \n    {% endif -%}\n</code></pre>\n<p>I have tried many different configurations for including different identation, spacing handling, etc. :</p>\n<pre><code>{%- if target.name != &quot;uat-az&quot; and target.name != &quot;prod-az&quot; %}\n{% endif -%}\n{%- if target.name != &quot;uat-az&quot; and target.name != &quot;prod-az&quot; -%}\n{%- endif -%}\n</code></pre>\n<p>yml files are very strict in terms of indentation and I am getting confused with the documentation: <a href=\"https://jinja.palletsprojects.com/en/stable/templates/#whitespace-control\" rel=\"nofollow noreferrer\">https://jinja.palletsprojects.com/en/stable/templates/#whitespace-control</a></p>\n<p>List of envs :</p>\n<ul>\n<li>prod = main prod</li>\n<li>uat = maint uat</li>\n<li>prod-az = new uat</li>\n<li>uat-az = new uat</li>\n</ul>\n<p>Is there a special syntax in the context of yml files ? What is it I am doing wrong ?</p>\n"
+  },
+  {
+    "tags": [
+      "python",
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 478521,
+      "reputation": 2382,
+      "user_id": 890669,
+      "user_type": "registered",
+      "accept_rate": 97,
+      "profile_image": "https://www.gravatar.com/avatar/6817c6a999db3ba618559622453502b2?s=256&d=identicon&r=PG",
+      "display_name": "syrkull",
+      "link": "https://stackoverflow.com/users/890669/syrkull"
+    },
+    "is_answered": false,
+    "view_count": 41,
+    "answer_count": 1,
+    "score": 0,
+    "last_activity_date": 1769343365,
+    "creation_date": 1764864522,
+    "last_edit_date": 1764864899,
+    "question_id": 79838126,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79838126/two-sources-and-two-destinations-in-dbt",
+    "title": "two sources and two destinations in dbt",
+    "body": "<p>I have two source schemas:</p>\n<ul>\n<li><p>source_prd</p>\n</li>\n<li><p>source_dev</p>\n</li>\n</ul>\n<p>I also have two targets schemas:</p>\n<ul>\n<li><p>target_prd</p>\n</li>\n<li><p>target_dev</p>\n</li>\n</ul>\n<p>All the tables are the same between dev and prd. I am essentially creating bunch of views from the source and inserting them to target.</p>\n<p>I have defined two targets in my profiles.yml. and I have the following on my sources.yml:\nschema: {{ &quot;source_prd&quot; if target.name == &quot;prd&quot; else &quot;source_dev&quot; }}</p>\n<p>but I am getting a parse error on my schema definition.</p>\n"
+  },
+  {
+    "tags": [
+      "dbt"
+    ],
+    "owner": {
+      "account_id": 10701804,
+      "reputation": 303,
+      "user_id": 7876879,
+      "user_type": "registered",
+      "profile_image": "https://www.gravatar.com/avatar/ef2122792a49d44a16700b79ad4152eb?s=256&d=identicon&r=PG&f=y&so-version=2",
+      "display_name": "Even",
+      "link": "https://stackoverflow.com/users/7876879/even"
+    },
+    "is_answered": true,
+    "view_count": 19234,
+    "accepted_answer_id": 69550357,
+    "answer_count": 1,
+    "score": 20,
+    "last_activity_date": 1769341718,
+    "creation_date": 1634103783,
+    "question_id": 69550294,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/69550294/how-to-setup-dbt-ui-for-data-lineage",
+    "title": "How to setup dbt UI for data lineage?",
+    "body": "<p>I'm new to the dbt and I'm planning to use dbt cli. One question is how to setup the dbt ui and have such a data lineage graph? I didn't find how to do it here with cli <a href=\"https://docs.getdbt.com/tutorial/create-a-project-dbt-cli\" rel=\"noreferrer\">https://docs.getdbt.com/tutorial/create-a-project-dbt-cli</a>.</p>\n<p><a href=\"https://i.sstatic.net/xrBa2.png\" rel=\"noreferrer\"><img src=\"https://i.sstatic.net/xrBa2.png\" alt=\"enter image description here\" /></a></p>\n"
+  },
+  {
+    "tags": [
+      "snowflake-cloud-data-platform",
+      "dbt",
+      "external-tables"
+    ],
+    "owner": {
+      "account_id": 407561,
+      "reputation": 1291,
+      "user_id": 777716,
+      "user_type": "registered",
+      "accept_rate": 40,
+      "profile_image": "https://i.sstatic.net/7iZSI.png?s=256",
+      "display_name": "pix",
+      "link": "https://stackoverflow.com/users/777716/pix"
+    },
+    "is_answered": false,
+    "view_count": 18,
+    "answer_count": 0,
+    "score": 0,
+    "last_activity_date": 1769096508,
+    "creation_date": 1769096508,
+    "question_id": 79873910,
+    "content_license": "CC BY-SA 4.0",
+    "link": "https://stackoverflow.com/questions/79873910/dbt-external-tables-add-inserted-at-column-into-snowflake-external-tables",
+    "title": "dbt_external_tables add inserted_at column into Snowflake external tables",
+    "body": "<p>I would like to feed our snowflake external table from our Azure blob with the dbt_external_tables plugin.</p>\n<p>I managed to feed the table with the data I want, but I am missing one column to do a proper CDC.</p>\n<p>Is there a way to add the timestamp when a row has been added to the external table ?</p>\n<p>This is my yml file.</p>\n<pre><code>  version: 2\n# https://docs.snowflake.com/en/sql-reference/sql/create-external-table\nsources:\n  - name: external_sources\n    description: 'External Sources'\n    loader: Prefect\n    database: MY_DB\n    schema: RAW\n    tables:\n      - name: raw_custom__tests\n        description: 'Raw Custom test data'\n        external:\n          location: '@my_db.stage.some_landing'\n          file_format: ( type = csv  COMPRESSION = AUTO FIELD_DELIMITER = ',' SKIP_HEADER = 1)      # fully specified here, or reference an existing file format\n          pattern: 'custom.*.csv'  # Optional object key pattern\n        partitions:       # optional\n            - name: asOfDate\n              data_type: date\n            - name: portfolioID\n              data_type: varchar(255)\n        columns:\n          - name: portfolioID\n            description: Unique Identifier of the portfolio\n            data_type: varchar(255)\n          - name:   asOfDate\n            description: As of date for the record\n            data_type: varchar(255)\n          - name:   testValueOne\n            description: First test value\n            data_type: varchar(255)\n          - name:   testValueTwo\n            description: Second Test Value\n            data_type: varchar(255)\n</code></pre>\n<p>Is there a way to add an auto-generated column into the column definition section?</p>\n<p>I read a tons of documentation, but did not find anything about this auto-compute column or metadata$something.</p>\n<p>Thank you in advance.</p>\n"
+  }
+]
