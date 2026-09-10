@@ -53,11 +53,12 @@ def clean(
     tag: str,
     output: str | None = None,
     limit: int | None = None,
+    input_path: str = ".",
 ):
     input_prefix = (
         f"s3a://{llm_bucket}/input/{tag}"
         if environment != "local"
-        else "."
+        else input_path
     )
 
     questions = (
@@ -130,6 +131,10 @@ def main():
         "--limit", type=int, help="maximum number of questions to process",
         default=None, required=False
     )
+    parser.add_argument(
+        "--input", dest="input_path", help="local directory containing questions.json and answers.json",
+        default=".", required=False
+    )
     logger.info("starting the cleaning job")
 
     args = parser.parse_args()
@@ -145,10 +150,10 @@ def main():
         for key, value in common_spark_config.items():
             builder = builder.config(key, value)
         session = builder.getOrCreate()
-        clean(session, args.env, args.tag, args.output, args.limit)
+        clean(session, args.env, args.tag, args.output, args.limit, args.input_path)
     else:
         with ClosableSparkSession("capstone_llm", spark_config=common_spark_config) as session:
-            clean(session, args.env, args.tag, args.output, args.limit)
+            clean(session, args.env, args.tag, args.output, args.limit, args.input_path)
 
 
 if __name__ == "__main__":

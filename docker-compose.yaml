@@ -89,6 +89,20 @@ x-airflow-common:
       condition: service_healthy
 
 services:
+  clean:
+    build:
+      context: .
+    image: capstonellm:local
+    profiles:
+      - clean
+    command:
+      - --input
+      - /opt/spark/data
+      - --output
+      - /opt/spark/data/cleaned
+    volumes:
+      - ./data:/opt/spark/data
+
   postgres:
     image: postgres:16
     environment:

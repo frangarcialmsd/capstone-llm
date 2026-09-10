@@ -175,5 +175,8 @@ Tasks:
 - `uv sync` to install the dependencies in a virtual environment
 - `uv pip install -e .` to install the current project in your virtual environment
 - `docker compose up -d` to start the airflow server
+- `docker build -t capstonellm:local .` to build the cleaning image
+- `mkdir -p data` and place `questions.json` and `answers.json` in `data/`
+- `docker compose --profile clean run --rm clean` to run `clean.py` in Docker; results are written to `data/cleaned/`
 - `uv export --format requirements-txt > requirements.txt` to export the dependencies to a `requirements.txt` file
 - `uv run python3 -m capstonellm.tasks.clean` run clean task locally
