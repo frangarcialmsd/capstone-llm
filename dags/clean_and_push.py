@@ -59,6 +59,7 @@ with DAG(
 ) as dag:
 	clean_and_push = DockerOperator.partial(
 		task_id="clean_and_push",
+		max_active_tis_per_dag=1,
 		image="capstonellm:local",
 		docker_url="unix://var/run/docker.sock",
 		network_mode="bridge",
