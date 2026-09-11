@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime, timezone
 
 from airflow import DAG
@@ -9,6 +10,17 @@ AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 AWS_DEFAULT_REGION = os.environ.get("AWS_DEFAULT_REGION", "eu-west-1")
 SOURCE_BUCKET = "dataminded-academy-capstone-llm-data"
+INVALID_DATASET_TAG_PATTERN = re.compile(r"[:,\s]")
+
+
+def _is_runnable_dataset_tag(dataset: str) -> bool:
+	return (
+		bool(dataset)
+		and not dataset.startswith("/")
+		and not dataset.endswith("/")
+		and ".." not in dataset
+		and INVALID_DATASET_TAG_PATTERN.search(dataset) is None
+	)
 
 
 @task
@@ -34,7 +46,7 @@ def source_tags():
 	tags = sorted(
 		dataset
 		for dataset, files in datasets.items()
-		if files == {"questions", "answers"} and "," not in dataset
+		if files == {"questions", "answers"} and _is_runnable_dataset_tag(dataset)
 	)
 
 	return [
