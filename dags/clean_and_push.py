@@ -23,6 +23,12 @@ def _is_runnable_dataset_tag(dataset: str) -> bool:
 	)
 
 
+class CleanDockerOperator(DockerOperator):
+	def __init__(self, *args, **kwargs):
+		kwargs.setdefault("mount_tmp_dir", False)
+		super().__init__(*args, **kwargs)
+
+
 @task
 def source_tags():
 	import boto3
@@ -69,12 +75,11 @@ with DAG(
 	catchup=False,
 	tags=["capstonellm", "s3"],
 ) as dag:
-	clean_and_push = DockerOperator.partial(
+	clean_and_push = CleanDockerOperator.partial(
 		task_id="clean_and_push",
 		image="capstonellm:local",
 		docker_url="unix://var/run/docker.sock",
 		network_mode="bridge",
-		mount_tmp_dir=False,
 		auto_remove="force",
 		environment={
 			"AWS_ACCESS_KEY_ID": AWS_ACCESS_KEY_ID,
